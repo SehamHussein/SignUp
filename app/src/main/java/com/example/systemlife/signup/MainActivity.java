@@ -1,6 +1,8 @@
 package com.example.systemlife.signup;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -39,24 +42,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText phoneNumber;
     @BindView(R.id.msg)
     EditText message;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
     String contentMail;
+    @BindView(R.id.imageView)
+    ImageView image;
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this)
-                ;
+        ButterKnife.bind(this);
         takePhoto.setOnClickListener(this);
         contentMail="Hellow Seham\n"+"i am "+first.getText()+" "+last.getText()+" \n and my mail is "+mail.getText()
                 +"\n you can call me on "+phoneNumber.getText()+"\n and i agree to take the course";
 
     }
+
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            image.setImageBitmap(imageBitmap);
         }
     }
     @Override
