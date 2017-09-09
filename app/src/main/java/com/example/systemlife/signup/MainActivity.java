@@ -2,6 +2,7 @@ package com.example.systemlife.signup;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,24 +39,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText phoneNumber;
     @BindView(R.id.msg)
     EditText message;
-
-    String contentMail="Hellow Seham\n"+"i am "+first.getText()+" "+last.getText()+" \n and my mail is "+mail.getText()
-            +"\n you can call me on "+phoneNumber.getText()+"\n and i agree to take the course";
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    String contentMail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this);
-    }
+        ButterKnife.bind(this)
+                ;
+        takePhoto.setOnClickListener(this);
+        contentMail="Hellow Seham\n"+"i am "+first.getText()+" "+last.getText()+" \n and my mail is "+mail.getText()
+                +"\n you can call me on "+phoneNumber.getText()+"\n and i agree to take the course";
 
+    }
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.photo:
-                Uri click = Uri.parse("camera");
-                Intent Photo = new Intent(Intent.ACTION_CAMERA_BUTTON,click);
+               dispatchTakePictureIntent();
                 break;
             case R.id.call:
                 Uri number = Uri.parse("tell:"+phoneNumber.getText());
