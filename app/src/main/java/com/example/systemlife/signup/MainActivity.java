@@ -2,8 +2,8 @@ package com.example.systemlife.signup;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,15 +11,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.RadioButton;
+import android.widget.TextView;
+
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static java.net.Proxy.Type.HTTP;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
+    private static final char VALID_CHARS = '0';
     @BindView(R.id.photo)
     Button takePhoto;
     @BindView(R.id.gallery)
@@ -42,11 +44,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText phoneNumber;
     @BindView(R.id.msg)
     EditText message;
-    String contentMail;
     @BindView(R.id.imageView)
     ImageView image;
+    @BindView(R.id.pik)
+    Button btnPikContact;
+    @BindView(R.id.showNumber)
+    TextView showText;
+    @BindView(R.id.male)
+    RadioButton maleRadio;
+    @BindView(R.id.female)
+    RadioButton femaleRadio;
+    @BindView(R.id.sign2)
+    Button btnSign2;
 
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    int PICK_IMAGE = 100;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +69,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ButterKnife.bind(this);
         takePhoto.setOnClickListener(this);
-        contentMail="Hellow Seham\n"+"i am "+first.getText()+" "+last.getText()+" \n and my mail is "+mail.getText()
-                +"\n you can call me on "+phoneNumber.getText()+"\n and i agree to take the course";
-
+        fromGallery.setOnClickListener(this);
+        shareWhatsApp.setOnClickListener(this);
+        sendMail.setOnClickListener(this);
+        callNumber.setOnClickListener(this);
+        sign.setOnClickListener(this);
+        btnPikContact.setOnClickListener(this);
+        maleRadio.setOnClickListener(this);
+        femaleRadio.setOnClickListener(this);
+        btnSign2.setOnClickListener(this);
     }
 
     private void dispatchTakePictureIntent() {
@@ -65,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -73,38 +95,107 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             image.setImageBitmap(imageBitmap);
         }
     }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+    private boolean isValidMobile(String phone) {
+        boolean check=false;
+        if(!Pattern.matches("[a-zA-Z]+", phone)) {
+            if(phone.length() < 6 || phone.length() > 13) {
+                // if(phone.length() != 10) {
+                check = false;
+                phoneNumber.setError("Not Valid Number");
+            } else {
+                check = true;
+            }
+        } else {
+            check=false;
+        }
+        return check;
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.photo:
-               dispatchTakePictureIntent();
+            case R.id.photo://finished
+                dispatchTakePictureIntent();
                 break;
-            case R.id.call:
-                Uri number = Uri.parse("tell:"+phoneNumber.getText());
-                Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
-                startActivity(callIntent);
+
+            case R.id.gallery://finished
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(gallery, PICK_IMAGE);
                 break;
-            case R.id.signup:
-                Toast.makeText(this,"cfgcfcgv",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.send:
+
+            case R.id.send://finished
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
-// The intent does not have a URI, so declare the "text/plain" MIME type
+                // The intent does not have a URI, so declare the "text/plain" MIME type
                 emailIntent.setType("text/plain");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"jon@example.com"+mail.getText()}); // recipients
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, first.getText()+" "+last.getText());
-                emailIntent.putExtra(Intent.EXTRA_TEXT, contentMail+"\n"+message.getText());
-                emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
-// You can also attach multiple items by passing an ArrayList of Uris
-                startActivity(emailIntent);
+                if (mail.getText().toString().equals(null)) {
+                    mail.setError("you should write mail");
+                } else if (isValidEmail(mail.getText().toString())) {
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{mail.getText().toString()}); // recipients
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, first.getText().toString() + " " +
+                            last.getText().toString());
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Hellow\n" + "i am " + first.getText().toString() +
+                            " " + last.getText().toString() + "\n and my mail is " + mail.getText().toString() +
+                            "\n you can call me on " + phoneNumber.getText().toString() +
+                            "\n and i agree to take the course\n" + message.getText().toString());
+                    emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
+                    // You can also attach multiple items by passing an ArrayList of Uris
+                    startActivity(emailIntent);
+                } else mail.setHint("the E-mail is not valid");
+
                 break;
-            case R.id.gallery:
-                Intent photoIntent=new Intent(Intent.CATEGORY_APP_GALLERY);
-                startActivity(photoIntent);
+
+            case R.id.call://finished
+                if (isValidMobile(phoneNumber.getText().toString())){
+                Uri number = Uri.parse("tel:"+phoneNumber.getText().toString());
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+                startActivity(callIntent);}
                 break;
-            case R.id.share:
+
+            case R.id.pik://finished
+//                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+//                startActivityForResult(intent,PICK_CONTACT);
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(intent, 7);
+                break;
+
+            case R.id.share://finished
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT,
+                        "hey i am " + first.getText().toString()
+                                + " " + last.getText().toString()
+                                + ", i am using WhatsApp, you can text me on it");
+                sendIntent.setType("text/plain");
+                // sendIntent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.com.WhatsApp"));
+                //startActivity(Intent.createChooser(sendIntent, ""));
+                sendIntent.setPackage("com.whatsapp");
+                startActivity(sendIntent);
+                break;
+
+            case R.id.signup://finished
+                intent = new Intent(this, Main2Activity.class);
+                String msg2 = "Hellow\n" + "i am " + first.getText().toString() +
+                        " " + last.getText().toString() + "\n and my mail is " + mail.getText().toString() +
+                        "\n you can call me on " + phoneNumber.getText().toString() +
+                        "\n and i agree to take the course\n" + message.getText().toString();
+                intent.putExtra(EXTRA_MESSAGE, msg2);
+                startActivity(intent);
+                break;
+
+            case R.id.sign2:
+
                 break;
         }
     }
+
 }
