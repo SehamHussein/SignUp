@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.systemlife.signup.DataModel.ChatModel;
@@ -20,7 +21,7 @@ import java.util.List;
  * Created by System.Life on 9/12/2017.
  */
 
-public class ChatAdapter extends ArrayAdapter<ChatModel> implements View.OnClickListener {
+public class ChatAdapter extends ArrayAdapter<ChatModel>{
 
     Button addButton;
     TextView textView;
@@ -42,22 +43,20 @@ public class ChatAdapter extends ArrayAdapter<ChatModel> implements View.OnClick
         textView = convertView.findViewById(R.id.textView);
         addButton = convertView.findViewById(R.id.button);
         agreeCheck = convertView.findViewById(R.id.checkBox2);
+        agreeCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b=true){
+                    addButton.setText("Done");
+                }
+            }
+        });
         textView.setText(chatModel.getBody());
         return convertView;
 
     }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.checkBox2) {
-            agreeCheck.setOnClickListener(this);
-            if (agreeCheck.isChecked())
-                addButton.setText("Done");
-            else
-                addButton.setText("Pending");
-        }
-    }
+
 
 }
 
