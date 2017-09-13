@@ -16,8 +16,6 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        ButterKnife.bind(this);
-
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -25,8 +23,6 @@ public class Main2Activity extends AppCompatActivity {
         // Capture the layout's TextView and set the string as its text
         TextView textView = (TextView) findViewById(R.id.textView2);
         textView.setText(message);
-
-
 
     }
 }

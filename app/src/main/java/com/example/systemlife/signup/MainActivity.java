@@ -3,6 +3,8 @@ package com.example.systemlife.signup;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
@@ -21,7 +24,6 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final char VALID_CHARS = '0';
     @BindView(R.id.photo)
     Button takePhoto;
     @BindView(R.id.gallery)
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    int PICK_IMAGE = 100;
+    static final int REQUEST_PICK_IMAGE = 55;
 
 
     @Override
@@ -93,6 +95,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             image.setImageBitmap(imageBitmap);
+        } else if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                //Get image
+                Bitmap newProfilePic = extras.getParcelable("data");
+                image.setImageBitmap(newProfilePic);
+            }
+            else {
+                Toast.makeText(this,"you didn't pick a picture",Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -105,9 +117,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean isValidMobile(String phone) {
-        boolean check=false;
-        if(!Pattern.matches("[a-zA-Z]+", phone)) {
-            if(phone.length() < 6 || phone.length() > 13) {
+        boolean check = false;
+        if (!Pattern.matches("[a-zA-Z]+", phone)) {
+            if (phone.length() < 6 || phone.length() > 13) {
                 // if(phone.length() != 10) {
                 check = false;
                 phoneNumber.setError("Not Valid Number");
@@ -115,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 check = true;
             }
         } else {
-            check=false;
+            check = false;
         }
         return check;
     }
@@ -130,7 +142,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.gallery://finished
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                startActivityForResult(gallery, PICK_IMAGE);
+                gallery.setType("image/*");
+                startActivityForResult(gallery,55);
                 break;
 
             case R.id.send://finished
@@ -150,15 +163,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
                     // You can also attach multiple items by passing an ArrayList of Uris
                     startActivity(emailIntent);
-                } else mail.setHint("the E-mail is not valid");
+                } else mail.setError("the E-mail is not valid");
 
                 break;
 
             case R.id.call://finished
-                if (isValidMobile(phoneNumber.getText().toString())){
-                Uri number = Uri.parse("tel:"+phoneNumber.getText().toString());
-                Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
-                startActivity(callIntent);}
+                if (isValidMobile(phoneNumber.getText().toString())) {
+                    Uri number = Uri.parse("tel:" + phoneNumber.getText().toString());
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+                    startActivity(callIntent);
+                }
                 break;
 
             case R.id.pik://finished
@@ -192,10 +206,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
 
-            case R.id.sign2:
-
+            case R.id.sign2://finished
+                Intent i = new Intent(this, Main3Activity.class);
+                String text = "Hellow\n" + "i am " + first.getText().toString() +
+                        " " + last.getText().toString() + "\n and my notes are: ";
+                i.putExtra(EXTRA_MESSAGE, text);
+                startActivity(i);
                 break;
         }
     }
-
 }
