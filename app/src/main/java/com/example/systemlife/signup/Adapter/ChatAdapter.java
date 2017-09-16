@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -23,7 +22,7 @@ import java.util.List;
 
 public class ChatAdapter extends ArrayAdapter<ChatModel>{
 
-    Button addButton;
+    TextView PenTxt;
     TextView textView;
     CheckBox agreeCheck;
 
@@ -40,14 +39,17 @@ public class ChatAdapter extends ArrayAdapter<ChatModel>{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_row, parent, false);
         }
 
-        textView = convertView.findViewById(R.id.textView);
-        addButton = convertView.findViewById(R.id.button);
-        agreeCheck = convertView.findViewById(R.id.checkBox2);
+        textView = convertView.findViewById(R.id.bodyTxt);
+        PenTxt = convertView.findViewById(R.id.PendingTxt);
+        agreeCheck = convertView.findViewById(R.id.doneCheck);
         agreeCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b=true){
-                    addButton.setText("Done");
+                if (agreeCheck.isChecked()){
+                    PenTxt.setText("Done");
+                }
+                else{
+                    PenTxt.setText("Pending");
                 }
             }
         });

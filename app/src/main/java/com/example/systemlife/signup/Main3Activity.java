@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -14,14 +15,14 @@ import com.example.systemlife.signup.DataModel.ChatModel;
 
 import java.util.ArrayList;
 
-import static com.example.systemlife.signup.R.id.button2;
-import static com.example.systemlife.signup.R.id.editText;
+import static com.example.systemlife.signup.R.id.addBtn;
 
 public class Main3Activity extends AppCompatActivity implements View.OnClickListener{
-    ListView listView;
+
     TextView infoTxt;
     EditText noteText;
-    Button button;
+    Button add_btn;
+    ListView listView;
     ArrayList<ChatModel> items;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +44,12 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
 //data on infoTxt by intent
         Intent intent=getIntent();
         String text=intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        infoTxt =(TextView) findViewById(R.id.textView3);
+        infoTxt =(TextView) findViewById(R.id.infoTxt);
         infoTxt.setText(text);
 
-//rewrite button
-        button=(Button) findViewById(R.id.button2);
-        button.setOnClickListener(this);
+//rewrite add_btn
+        add_btn =(Button) findViewById(R.id.addBtn);
+        add_btn.setOnClickListener(this);
 
     }
 
@@ -57,11 +58,15 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
         int id= view.getId();
 
          switch (id) {
-            case button2:
-                String s=noteText.getText().toString();
+            case addBtn:
+                final String s=noteText.getText().toString();
                 items.add(new ChatModel(s));
-                noteText.setText("");
+                ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+                noteText.setText(null);
+
         }
 
     }
+
+
 }

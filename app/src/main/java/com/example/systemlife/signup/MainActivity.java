@@ -3,8 +3,6 @@ package com.example.systemlife.signup;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -34,11 +32,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button callNumber;
     @BindView(R.id.share)
     Button shareWhatsApp;
-    @BindView(R.id.signup)
+    @BindView(R.id.sign1)
     Button sign;
-    @BindView(R.id.firstname)
+    @BindView(R.id.firstName)
     EditText first;
-    @BindView(R.id.lastname)
+    @BindView(R.id.lastName)
     EditText last;
     @BindView(R.id.email)
     EditText mail;
@@ -196,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(sendIntent);
                 break;
 
-            case R.id.signup://finished
+            case R.id.sign1://finished
                 intent = new Intent(this, Main2Activity.class);
                 String msg2 = "Hellow\n" + "i am " + first.getText().toString() +
                         " " + last.getText().toString() + "\n and my mail is " + mail.getText().toString() +

@@ -7,7 +7,7 @@
 
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/doneCheck"
         android:layout_width="wrap_content"
         android:layout_height="58dp"
         android:layout_weight="0.64"
@@ -15,20 +15,18 @@
         android:text="Agree" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/bodyTxt"
         android:layout_width="wrap_content"
-        android:layout_height="51dp"
+        android:layout_height="27dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:paddingTop="0dp"
-        android:text="Name"
-        android:layout_weight="0.36" />
+        android:text="Name" />
 
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/PendingTxt"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="39dp"
         android:text="Pending"
-        />
+        android:layout_weight="0.24" />
 
 </LinearLayout>

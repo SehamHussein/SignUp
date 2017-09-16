@@ -5,9 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class Main2Activity extends AppCompatActivity {
 
 
@@ -21,7 +18,7 @@ public class Main2Activity extends AppCompatActivity {
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         // Capture the layout's TextView and set the string as its text
-        TextView textView = (TextView) findViewById(R.id.textView2);
+        TextView textView = (TextView) findViewById(R.id.informationTxt);
         textView.setText(message);
 
     }
