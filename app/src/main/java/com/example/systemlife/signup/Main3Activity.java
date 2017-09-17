@@ -43,9 +43,9 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
 
 //data on infoTxt by intent
         Intent intent=getIntent();
-        String text=intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        infoTxt =(TextView) findViewById(R.id.infoTxt);
-        infoTxt.setText(text);
+//        String text=intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+//        infoTxt =(TextView) findViewById(R.id.infoTxt);
+//        infoTxt.setText(text);
 
 //rewrite add_btn
         add_btn =(Button) findViewById(R.id.addBtn);
@@ -58,7 +58,7 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
         int id= view.getId();
 
          switch (id) {
-            case addBtn:
+            case R.id.addBtn:
                 final String s=noteText.getText().toString();
                 items.add(new ChatModel(s));
                 ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();

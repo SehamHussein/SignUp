@@ -1,6 +1,7 @@
 package com.example.systemlife.signup;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -136,6 +137,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.photo://finished
                 dispatchTakePictureIntent();
+                //testing
+                SharedPreferences profile = getSharedPreferences(String.valueOf(image), 0);
+                SharedPreferences.Editor editor = profile.edit();
+                editor.apply();
+
                 break;
 
             case R.id.gallery://finished
@@ -154,21 +160,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{mail.getText().toString()}); // recipients
                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, first.getText().toString() + " " +
                             last.getText().toString());
-                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Hellow\n" + "i am " + first.getText().toString() +
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello\n" + "i am " + first.getText().toString() +
                             " " + last.getText().toString() + "\n and my mail is " + mail.getText().toString() +
                             "\n you can call me on " + phoneNumber.getText().toString() +
                             "\n and i agree to take the course\n" + message.getText().toString());
                     emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
                     // You can also attach multiple items by passing an ArrayList of Uris
+                    //testing
+                    SharedPreferences e_mail = getSharedPreferences(String.valueOf(mail), 0);
+                    SharedPreferences.Editor edit = e_mail.edit();
+                    edit.apply();
                     startActivity(emailIntent);
                 } else mail.setError("the E-mail is not valid");
-
+                //testing
+                SharedPreferences name = getSharedPreferences(String.valueOf(first)+String.valueOf(last), 0);
+                SharedPreferences.Editor editorr = name.edit();
+                editorr.apply();
                 break;
 
             case R.id.call://finished
                 if (isValidMobile(phoneNumber.getText().toString())) {
                     Uri number = Uri.parse("tel:" + phoneNumber.getText().toString());
                     Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+                    //testing
+                    SharedPreferences phone = getSharedPreferences(String.valueOf(phoneNumber), 0);
+                    SharedPreferences.Editor editt = phone.edit();
+                    editt.apply();
                     startActivity(callIntent);
                 }
                 break;
@@ -195,8 +212,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.sign1://finished
-                intent = new Intent(this, Main2Activity.class);
-                String msg2 = "Hellow\n" + "i am " + first.getText().toString() +
+                intent  = new Intent(this, Main2Activity.class);
+                String msg2 = "Hello\n" + "i am " + first.getText().toString() +
                         " " + last.getText().toString() + "\n and my mail is " + mail.getText().toString() +
                         "\n you can call me on " + phoneNumber.getText().toString() +
                         "\n and i agree to take the course\n" + message.getText().toString();
@@ -205,11 +222,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.sign2://finished
-                Intent i = new Intent(this, Main3Activity.class);
-                String text = "Hellow\n" + "i am " + first.getText().toString() +
-                        " " + last.getText().toString() + "\n and my notes are: ";
-                i.putExtra(EXTRA_MESSAGE, text);
+                Intent i=new Intent(this,Main4Activity.class);
                 startActivity(i);
+
+//                Intent i = new Intent(this, Main3Activity.class);
+//                String text = "Hello\n" + "i am " + first.getText().toString() +
+//                        " " + last.getText().toString() + "\n and my notes are: ";
+//                i.putExtra(EXTRA_MESSAGE, text);
+//                startActivity(i);
+
+
                 break;
         }
     }
