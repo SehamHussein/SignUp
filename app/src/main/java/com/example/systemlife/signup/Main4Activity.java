@@ -54,7 +54,9 @@ public class Main4Activity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         int id=view.getId();
         if (id==R.id.log){
-            if (user.getText().toString().equals(getSharedPreferences(user.toString(),0))){
+            SharedPreferences sharedPreferences=getSharedPreferences(user.toString(),0);
+            String x=sharedPreferences.getString("fsdfsd",null);
+            if (user.getText().toString().equals(x)){
                 Intent intent=new Intent(this,Main3Activity.class);
                 startActivity(intent);
             }
