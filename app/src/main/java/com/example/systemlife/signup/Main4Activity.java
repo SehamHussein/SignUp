@@ -13,6 +13,7 @@ import butterknife.OnClick;
 
 import static android.R.attr.name;
 import static com.example.systemlife.signup.MainActivity.EXTRA_MESSAGE;
+import static com.example.systemlife.signup.MainActivity.SHARED_PREF_NAME;
 import static com.example.systemlife.signup.R.id.email;
 import static com.example.systemlife.signup.R.id.log;
 import static com.example.systemlife.signup.R.id.userName;
@@ -22,6 +23,7 @@ public class Main4Activity extends AppCompatActivity implements View.OnClickList
     EditText user=(EditText) findViewById(R.id.userName);
     EditText pass=(EditText) findViewById(R.id.passWord);
     Button logIn=(Button) findViewById(R.id.log);
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +56,12 @@ public class Main4Activity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         int id=view.getId();
         if (id==R.id.log){
-            SharedPreferences sharedPreferences=getSharedPreferences(user.toString(),0);
-            String x=sharedPreferences.getString("fsdfsd",null);
+            SharedPreferences sharedPreferences=getSharedPreferences(SHARED_PREF_NAME,0);
+            String x=sharedPreferences.getString(SHARED_PREF_NAME,null);
             if (user.getText().toString().equals(x)){
                 Intent intent=new Intent(this,Main3Activity.class);
+                String mess="Hello\n"+user.getText().toString();
+                intent.putExtra(EXTRA_MESSAGE,mess);
                 startActivity(intent);
             }
             else

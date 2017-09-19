@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_PICK_IMAGE = 55;
+    static final String SHARED_PREF_NAME="current_user";
 
 
     @Override
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.photo://finished
                 dispatchTakePictureIntent();
                 //testing
-                SharedPreferences profile = getSharedPreferences(String.valueOf(image), 0);
+                SharedPreferences profile = getSharedPreferences(SHARED_PREF_NAME, 0);
                 SharedPreferences.Editor editor = profile.edit();
                 editor.apply();
 
@@ -173,9 +174,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(emailIntent);
                 } else mail.setError("the E-mail is not valid");
                 //testing
-                SharedPreferences name = getSharedPreferences(String.valueOf(first)+String.valueOf(last), 0);
-                SharedPreferences.Editor editorr = name.edit();
-                editorr.apply();
+                SharedPreferences name = getSharedPreferences(SHARED_PREF_NAME, 0);
+                editor = name.edit();
+                editor.apply();
                 break;
 
             case R.id.call://finished
@@ -183,9 +184,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Uri number = Uri.parse("tel:" + phoneNumber.getText().toString());
                     Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
                     //testing
-                    SharedPreferences phone = getSharedPreferences(String.valueOf(phoneNumber), 0);
-                    SharedPreferences.Editor editt = phone.edit();
-                    editt.apply();
+                    SharedPreferences phone = getSharedPreferences(SHARED_PREF_NAME, 0);
+                    editor = phone.edit();
+                    editor.apply();
                     startActivity(callIntent);
                 }
                 break;
