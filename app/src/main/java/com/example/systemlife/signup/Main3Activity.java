@@ -28,7 +28,7 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
-
+noteText=(EditText) findViewById(R.id.notesTxt);
 
         listView=(ListView) findViewById(R.id.listView);
         items=new ArrayList<>();
@@ -59,8 +59,9 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
 
          switch (id) {
             case R.id.addBtn:
-                final String s=noteText.getText().toString();
+               final String s=noteText.getText().toString();
                 items.add(new ChatModel(s));
+
                 ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
                 noteText.setText(null);
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.systemlife.signup.DataModel.ChatModel;
@@ -22,12 +23,12 @@ import java.util.List;
 
 public class ChatAdapter extends ArrayAdapter<ChatModel>{
 
-    TextView PenTxt;
-    TextView textView;
-    CheckBox agreeCheck;
+List<ChatModel> chatModelLis;
 
     public ChatAdapter(@NonNull Context context, @NonNull List<ChatModel> Objects) {
         super(context, 0, Objects);
+        chatModelLis=Objects;
+
     }
 
     @NonNull
@@ -38,7 +39,9 @@ public class ChatAdapter extends ArrayAdapter<ChatModel>{
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_row, parent, false);
         }
-
+        final TextView PenTxt;
+        TextView textView;
+        final CheckBox agreeCheck;
         textView = convertView.findViewById(R.id.bodyTxt);
         PenTxt = convertView.findViewById(R.id.PendingTxt);
         agreeCheck = convertView.findViewById(R.id.doneCheck);

@@ -223,7 +223,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.sign2://finished
-                Intent i=new Intent(this,Main4Activity.class);
+                //Intent i=new Intent(this,Main4Activity.class);
+                Intent i=new Intent(this,Main3Activity.class);
                 startActivity(i);
 
 //                Intent i = new Intent(this, Main3Activity.class);
