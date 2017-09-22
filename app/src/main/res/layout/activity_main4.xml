@@ -30,18 +30,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="243dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="0dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Pass Word"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.372"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/userName"
+        app:layout_constraintRight_toRightOf="@+id/userName"
         app:layout_constraintTop_toBottomOf="@+id/userName"
-        app:layout_constraintVertical_bias="0.139" />
+        app:layout_constraintVertical_bias="0.146" />
 
     <Button
         android:id="@+id/log"
@@ -53,9 +53,9 @@
         android:layout_marginTop="8dp"
         android:text="Log In"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.396"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintLeft_toLeftOf="@+id/passWord"
+        app:layout_constraintRight_toRightOf="@+id/passWord"
         app:layout_constraintTop_toBottomOf="@+id/passWord"
         app:layout_constraintVertical_bias="0.252" />
 

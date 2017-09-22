@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText mail;
     @BindView(R.id.phone)
     EditText phoneNumber;
-    @BindView(R.id.msg)
-    EditText message;
+    @BindView(R.id.pass)
+    EditText passWord;
     @BindView(R.id.imageView)
     ImageView image;
     @BindView(R.id.pik)
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_PICK_IMAGE = 55;
     static final String SHARED_PREF_NAME="current_user";
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dispatchTakePictureIntent();
                 //testing
                 SharedPreferences profile = getSharedPreferences(SHARED_PREF_NAME, 0);
-                SharedPreferences.Editor editor = profile.edit();
+                editor = profile.edit();
                 editor.apply();
 
                 break;
@@ -164,13 +165,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello\n" + "i am " + first.getText().toString() +
                             " " + last.getText().toString() + "\n and my mail is " + mail.getText().toString() +
                             "\n you can call me on " + phoneNumber.getText().toString() +
-                            "\n and i agree to take the course\n" + message.getText().toString());
+                            "\n and i agree to take the course\n");
                     emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
                     // You can also attach multiple items by passing an ArrayList of Uris
                     //testing
-                    SharedPreferences e_mail = getSharedPreferences(String.valueOf(mail), 0);
-                    SharedPreferences.Editor edit = e_mail.edit();
-                    edit.apply();
+                    SharedPreferences e_mail = getSharedPreferences(SHARED_PREF_NAME, 0);
+                    editor =e_mail.edit();
+                    editor.apply();
                     startActivity(emailIntent);
                 } else mail.setError("the E-mail is not valid");
                 //testing
@@ -217,14 +218,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String msg2 = "Hello\n" + "i am " + first.getText().toString() +
                         " " + last.getText().toString() + "\n and my mail is " + mail.getText().toString() +
                         "\n you can call me on " + phoneNumber.getText().toString() +
-                        "\n and i agree to take the course\n" + message.getText().toString();
+                        "\n and i agree to take the course\n";
                 intent.putExtra(EXTRA_MESSAGE, msg2);
                 startActivity(intent);
                 break;
 
-            case R.id.sign2://finished
-                //Intent i=new Intent(this,Main4Activity.class);
-                Intent i=new Intent(this,Main3Activity.class);
+            case R.id.sign2://pending
+                Intent i=new Intent(this,Main4Activity.class);
                 startActivity(i);
 
 //                Intent i = new Intent(this, Main3Activity.class);
@@ -232,8 +232,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        " " + last.getText().toString() + "\n and my notes are: ";
 //                i.putExtra(EXTRA_MESSAGE, text);
 //                startActivity(i);
-
-
                 break;
         }
     }
