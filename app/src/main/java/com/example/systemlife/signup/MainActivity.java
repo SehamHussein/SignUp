@@ -16,6 +16,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         maleRadio.setOnClickListener(this);
         femaleRadio.setOnClickListener(this);
         btnSign2.setOnClickListener(this);
+
     }
 
     private void dispatchTakePictureIntent() {
@@ -181,12 +184,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.call://finished
-                if (isValidMobile(phoneNumber.getText().toString())) {
-                    Uri number = Uri.parse("tel:" + phoneNumber.getText().toString());
+                String x= phoneNumber.getText().toString();
+                if (isValidMobile(x)) {
+                    Uri number = Uri.parse("tel:" + x);
                     Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
                     //testing
                     SharedPreferences phone = getSharedPreferences(SHARED_PREF_NAME, 0);
                     editor = phone.edit();
+                    editor.putString("phoneNumber",x);
                     editor.apply();
                     startActivity(callIntent);
                 }
@@ -224,6 +229,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.sign2://pending
+                User  user= new User(first.getText().toString(),passWord.getText().toString());
+                String userJsonData=new Gson().toJson(user);
+                SharedPreferences  sharedPreferences= getSharedPreferences("xyz",MODE_PRIVATE);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putString("userData",userJsonData);
+                editor.apply();
                 Intent i=new Intent(this,Main4Activity.class);
                 startActivity(i);
 
