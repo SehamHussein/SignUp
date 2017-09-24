@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.systemlife.signup.Adapter.ChatAdapter;
 import com.example.systemlife.signup.DataModel.ChatModel;
@@ -28,6 +30,7 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
     TextView infoTxt;
     EditText noteText;
     Button add_btn;
+    CheckBox lanCheck;
     ListView listView;
     ArrayList<ChatModel> items;
 
@@ -54,6 +57,8 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
         ChatAdapter chat = new ChatAdapter(this, items);
         listView.setAdapter(chat);
 
+        lanCheck=(CheckBox) findViewById(R.id.lanCheck);
+
 //rewrite add_btn
         add_btn = (Button) findViewById(R.id.addBtn);
         add_btn.setOnClickListener(this);
@@ -69,8 +74,7 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
                 final String s = noteText.getText().toString();
                 items.add(new ChatModel(s));
                 ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
-                //test database
-                //Main4Activity.Notes notes=new Main4Activity.Notes(s);
+
                 User user1 = new User(noteText.getText().toString());
                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -78,7 +82,7 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
                 String theUser = gson.toJson(user1);
                 editor.putString("Notes", theUser);
                 editor.apply();
-
+                Toast.makeText(this, theUser, Toast.LENGTH_SHORT).show();
                 noteText.setText(null);
 
         }

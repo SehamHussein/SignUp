@@ -44,7 +44,9 @@ List<ChatModel> chatModelLis;
         final CheckBox agreeCheck;
         textView = convertView.findViewById(R.id.bodyTxt);
         PenTxt = convertView.findViewById(R.id.PendingTxt);
+
         agreeCheck = convertView.findViewById(R.id.doneCheck);
+
         agreeCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

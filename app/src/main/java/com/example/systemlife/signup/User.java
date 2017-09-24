@@ -10,6 +10,7 @@ public class User implements Serializable {
 
     String name;
     String password;
+    String notes;
 
     public String getName() {
         return name;
@@ -27,8 +28,8 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(String name) {
-        this.name = name;
+    public User(String notes) {
+        this.notes = notes;
     }
 
     public User(String name, String password) {

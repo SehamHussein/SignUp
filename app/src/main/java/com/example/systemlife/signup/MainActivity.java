@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_PICK_IMAGE = 55;
     static final String SHARED_PREF_NAME="current_user";
-    SharedPreferences.Editor editor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,11 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.photo://finished
                 dispatchTakePictureIntent();
-                //testing
-                SharedPreferences profile = getSharedPreferences(SHARED_PREF_NAME, 0);
-                editor = profile.edit();
-                editor.apply();
-
                 break;
 
             case R.id.gallery://finished
@@ -171,16 +164,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             "\n and i agree to take the course\n");
                     emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
                     // You can also attach multiple items by passing an ArrayList of Uris
-                    //testing
-                    SharedPreferences e_mail = getSharedPreferences(SHARED_PREF_NAME, 0);
-                    editor =e_mail.edit();
-                    editor.apply();
                     startActivity(emailIntent);
                 } else mail.setError("the E-mail is not valid");
-                //testing
-                SharedPreferences name = getSharedPreferences(SHARED_PREF_NAME, 0);
-                editor = name.edit();
-                editor.apply();
                 break;
 
             case R.id.call://finished
@@ -188,11 +173,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (isValidMobile(x)) {
                     Uri number = Uri.parse("tel:" + x);
                     Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
-                    //testing
-                    SharedPreferences phone = getSharedPreferences(SHARED_PREF_NAME, 0);
-                    editor = phone.edit();
-                    editor.putString("phoneNumber",x);
-                    editor.apply();
                     startActivity(callIntent);
                 }
                 break;
@@ -228,13 +208,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
 
-            case R.id.sign2://pending
-                User  user= new User(first.getText().toString(),passWord.getText().toString());
+            case R.id.sign2://finished
+                String userName=first.getText().toString()+" "+last.getText().toString();
+
+                User  user= new User(userName,passWord.getText().toString());
                 String userJsonData=new Gson().toJson(user);
-                SharedPreferences  sharedPreferences= getSharedPreferences("xyz",MODE_PRIVATE);
+                SharedPreferences  sharedPreferences= getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE);
                 SharedPreferences.Editor editor=sharedPreferences.edit();
                 editor.putString("userData",userJsonData);
                 editor.apply();
+
+                User user1=new User(mail.getText().toString(),passWord.getText().toString());
+                String userJsonData1=new Gson().toJson(user1);
+                SharedPreferences.Editor editor1=sharedPreferences.edit();
+                editor1.putString("userData1",userJsonData1);
+                editor1.apply();
+
                 Intent i=new Intent(this,Main4Activity.class);
                 startActivity(i);
 

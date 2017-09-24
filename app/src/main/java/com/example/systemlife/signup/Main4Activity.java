@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import static com.example.systemlife.signup.MainActivity.SHARED_PREF_NAME;
 
 
 public class Main4Activity extends AppCompatActivity implements View.OnClickListener {
@@ -29,29 +30,10 @@ public class Main4Activity extends AppCompatActivity implements View.OnClickList
 userName= (EditText) findViewById(R.id.userName);
         pass= (EditText) findViewById(R.id.passWord);
         logIn= (Button) findViewById(R.id.log);
-//        ActiveAndroid.initialize(this);
-//        Configuration dbConfiguration = new Configuration.Builder(this).setDatabaseName("xxx.db").create();
-//        ActiveAndroid.initialize(dbConfiguration);
 
         Intent intent = getIntent();
 
         logIn.setOnClickListener(this);
-
-//        logIn.setOnClickListener((View.OnClickListener) this);
-//        logIn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (user.getText().toString().equals(getSharedPreferences(String.valueOf(name),0))){
-//                Intent i= new Intent(Main4Activity.this, Main3Activity.class);
-////                String text = "Hello\n" + "i am " + user.getText() + "\n and my notes are: ";
-////                i.putExtra(EXTRA_MESSAGE, text);
-//                startActivity(i);
-//                }
-//                else {
-//                    Toast.makeText(Main4Activity.this, "User Name is Wrong", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
 
     }
 
@@ -60,47 +42,31 @@ userName= (EditText) findViewById(R.id.userName);
         int id = view.getId();
         if (id == R.id.log) {
 
-            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE);
-           String s=sharedPreferences.getString("phoneNumber",null);
-            SharedPreferences sharedPreferences2 = getSharedPreferences("xyz",MODE_PRIVATE);
+            SharedPreferences sharedPreferences2 = getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE);
             String userData=sharedPreferences2.getString("userData",null);
             User userFromshared=new Gson().fromJson(userData,User.class);
+
+            SharedPreferences sharedPreferences3 = getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE);
+            String userData1=sharedPreferences3.getString("userData1",null);
+            User userFromshared1=new Gson().fromJson(userData1,User.class);
+
             if (userName.getText().toString().equals(userFromshared.getName())&&
                     pass.getText().toString().equals(userFromshared.getPassword())) {
                 Intent intent = new Intent(Main4Activity.this, Main3Activity.class);
                 String mess = "Hello\n" + userName.getText().toString();
                 intent.putExtra(EXTRA_MESSAGE, mess);
                 startActivity(intent);
-            } else
+
+            }else if (userName.getText().toString().equals(userFromshared1.getName())&&
+                    pass.getText().toString().equals(userFromshared1.getPassword())){
+                Intent intent = new Intent(Main4Activity.this, Main3Activity.class);
+                String mess = "Hello\n" + userName.getText().toString();
+                intent.putExtra(EXTRA_MESSAGE, mess);
+                startActivity(intent);
+            }
+            else
                 Toast.makeText(this, "User name is wrong", Toast.LENGTH_LONG).show();
         }
     }
 
-//    // testing table
-//    @Table(name = "Notes")
-//    public static class Notes extends Model {
-//        @Column(name = "Name")
-//        public String name;
-//        @Column(name = "password")
-//        public String password;
-//        @Column(name = "email")
-//        public String email;
-//        @Column(name = "notes")
-//        public String  notes;
-//
-//        public Notes() {
-//            super();
-//        }
-//        public Notes(String name, String password,String email ) {
-//            super();
-//            this.name = name;
-//            this.password = password;
-//            this.email=email;
-//        }
-//        public Notes(String notes){
-//            super();
-//            this.notes=notes;
-//        }
-//
-//    }
 }
