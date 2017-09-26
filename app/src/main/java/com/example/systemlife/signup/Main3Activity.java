@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -57,9 +60,8 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
         ChatAdapter chat = new ChatAdapter(this, items);
         listView.setAdapter(chat);
 
-        lanCheck=(CheckBox) findViewById(R.id.lanCheck);
+        lanCheck = (CheckBox) findViewById(R.id.lanCheck);
 
-//rewrite add_btn
         add_btn = (Button) findViewById(R.id.addBtn);
         add_btn.setOnClickListener(this);
 
@@ -68,26 +70,32 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         int id = view.getId();
-
         switch (id) {
             case R.id.addBtn:
                 final String s = noteText.getText().toString();
-                items.add(new ChatModel(s));
-                ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+                    items.add(new ChatModel(s));
+                    ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
 
-                User user1 = new User(noteText.getText().toString());
-                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                Gson gson = new Gson();
-                String theUser = gson.toJson(user1);
-                editor.putString("Notes", theUser);
-                editor.apply();
-                Toast.makeText(this, theUser, Toast.LENGTH_SHORT).show();
-                noteText.setText(null);
-
+                    User user1 = new User(s);
+                    SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Gson gson = new Gson();
+                    String theUser = gson.toJson(user1);
+                    editor.putString("Notes", theUser);
+                    editor.apply();
+                    Toast.makeText(this, theUser, Toast.LENGTH_SHORT).show();
+                    noteText.setText(null);
         }
 
     }
-
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu , menu);
+        return true;
+    }
+    public void logout(MenuItem item) {
+        Intent intent = new Intent(this, Main4Activity.class);
+        startActivity(intent);
+    }
 }
