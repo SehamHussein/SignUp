@@ -73,8 +73,8 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
         switch (id) {
             case R.id.addBtn:
                 final String s = noteText.getText().toString();
-                    items.add(new ChatModel(s));
-                    ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+
+                    ((ChatAdapter) listView.getAdapter()).add(new ChatModel(s));
 
                     User user1 = new User(s);
                     SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
